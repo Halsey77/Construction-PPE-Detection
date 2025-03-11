@@ -1,4 +1,4 @@
-name: yolo
+name: ppe_yolo8
 channels:
   - defaults
 dependencies:

@@ -172,3 +172,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+test_videos/testvid_org.mp4
+test_videos/PPE_Part2.mp4
+test_videos/night-construct-3.mp4
+test_videos/night-construct-2.mp4

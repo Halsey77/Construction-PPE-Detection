@@ -3,13 +3,14 @@ from dotenv import load_dotenv
 import cv2
 import time
 import smtplib
-from email.mime.text import MIMEText
+from email.mime.text import MIMEText    
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 from ultralytics import YOLO
 import threading
 
+os.environ["QT_SCALE_FACTOR"] = "2"
 # Load environment variables from .env file
 load_dotenv()
 
@@ -18,11 +19,10 @@ sender_email = os.getenv("SENDER_EMAIL")
 receiver_email = os.getenv("RECEIVER_EMAIL")
 email_password = os.getenv("EMAIL_PASSWORD")
 
-def draw_text_with_background(frame, text, position, font_scale=0.4, color=(255, 255, 255), thickness=1, bg_color=(0, 0, 0), alpha=0.7, padding=5):
-    font = cv2.FONT_HERSHEY_SIMPLEX
+def draw_text_with_background(frame, text, position, font_scale=0.4, color=(255, 255, 255), thickness=2, bg_color=(0, 0, 0), alpha=0.7, padding=5):
+    font = cv2.FONT_HERSHEY_TRIPLEX
     text_size = cv2.getTextSize(text, font, font_scale, thickness)[0]
     text_width, text_height = text_size
-
     overlay = frame.copy()
     x, y = position
     cv2.rectangle(overlay, (x - padding, y - text_height - padding), (x + text_width + padding, y + padding), bg_color, -1)
@@ -62,8 +62,9 @@ def send_email_in_background(image_path):
     email_thread.start()
 
 def main():
-    model = YOLO("Model/ppe.pt")  # Replace with your custom model file if needed
-    cap = cv2.VideoCapture(0)  # 0 is usually the default camera
+    model = YOLO("Model/yolov11-n-construct.pt")  # Replace with your custom model file if needed
+    cap = cv2.VideoCapture("PPE_Part2.mp4")  # 0 is usually the default camera
+    
     
     if not cap.isOpened():
         print("Error: Unable to access the webcam.")
@@ -122,7 +123,7 @@ def main():
 
                     # Draw the bounding box
                     cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-                    draw_text_with_background(frame, label, (x1, y1 - 10), font_scale=0.4, color=(255, 255, 255), bg_color=color, alpha=0.8, padding=4)
+                    draw_text_with_background(frame, label, (x1, y1 - 10), font_scale=1, color=(255, 255, 255), bg_color=color, alpha=0.8, padding=4)
 
                     if model.names[cls] == "Hardhat":
                         hardhat_count += 1
@@ -155,12 +156,12 @@ def main():
 
         y_position = 30
         for text in sideboard_text:
-            draw_text_with_background(frame, text, (10, y_position), font_scale=0.5, color=(255, 255, 255), bg_color=(0, 0, 0), alpha=0.7, padding=5)
+            draw_text_with_background(frame, text, (10, y_position), font_scale=1, color=(255, 255, 255), bg_color=(0, 0, 0), alpha=0.7, padding=5)
             y_position += 30
 
         # Show the "Email Sent" message for 3 seconds after an email is sent
         if email_sent_flag and (time.time() - email_sent_time) < 3:
-            draw_text_with_background(frame, "Email Sent", (frame.shape[1] - 100, 30), font_scale=0.5, color=(0, 255, 0), bg_color=(0, 0, 0), alpha=0.8, padding=5)
+            draw_text_with_background(frame, "Email Sent", (frame.shape[1] - 100, 30), font_scale=1, color=(0, 255, 0), bg_color=(0, 0, 0), alpha=0.8, padding=5)
 
         # Resize the frame to fit the window dynamically
         resized_frame = cv2.resize(frame, (640, 480), interpolation=cv2.INTER_LINEAR)  # Resize to a fixed size

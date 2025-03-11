@@ -1,13 +1,19 @@
-![Header Image](Visuals/ppe-public-view.png)  
+# Construction Safety Detection 
 
-# Construction Safety Detection - Mail Alert (Yolov8)
+**Disclaimer:**
+> This is a slightly-modified version of this [repository](https://github.com/Ansarimajid/Construction-PPE-Detection). I simply replaced the YOLOv8 model with YOLOv11n, update dependencies and code for new model. Many thanks to the original author for the great work.
+> 
+> The new code `yolo11n-ppe_detect.py` is simply a demo and lacks the email alert functionality.
+> 
+> The original code can be used with YOLOv11n model by replacing the `ppe.pt` file with the new `yolov11-n-construct.pt` file.
 
-This project focuses on enhancing construction site safety through real-time detection of safety gear such as helmets, vests, and masks worn by workers, as well as detecting the presence of a person. The detection is performed using YOLOv8, a state-of-the-art object detection algorithm.
+---
 
+This project focuses on enhancing construction site safety through real-time detection of safety gear such as helmets, vests, and masks worn by workers, as well as detecting the presence of a person. The detection is performed using YOLOv11, a state-of-the-art object detection algorithm.
 
 ## Overview
 
-Construction sites present various safety hazards, and ensuring that workers wear appropriate safety gear is crucial for accident prevention. This project automates the process of safety gear detection using computer vision techniques. By deploying YOLOv8, the system can detect whether a worker is wearing a helmet, a vest, a mask, or all, and identify people in real-time.
+Construction sites present various safety hazards, and ensuring that workers wear appropriate safety gear is crucial for accident prevention. This project automates the process of safety gear detection using computer vision techniques. By deploying YOLOv11n, the system can detect whether a worker is wearing a helmet, a vest, a mask, or all, and identify people in real-time.
 
 ## Features
 
@@ -22,8 +28,8 @@ Construction sites present various safety hazards, and ensuring that workers wea
 
 ## Requirements
 
-- Python 3.9
-- YOLOv8 dependencies (refer to YOLOv8 documentation for installation instructions)
+- Python 3.10
+- YOLOv11 dependencies (refer to YOLOv11 documentation for installation instructions)
 - OpenCV
 - Other dependencies as mentioned in the project code
 
@@ -38,40 +44,23 @@ Construction sites present various safety hazards, and ensuring that workers wea
     cd Construction-PPE-Detection
     ```
 
-2. Create a conda environment from the `yolo_env.yml` file:
+2. Create a conda environment from the `ppe_yolo11n_environment.yml` file:
 
     ```bash
-    conda env create -f yolo_env.yml
+    conda env create -f ppe_yolo11n_environment.yml
     ```
 
 3. Activate the environment:
 
     ```bash
-    conda activate yolo
+    conda activate ppe11n
     ```
 
-4. Ensure the YOLOv8 weights file (`ppe.pt`) and place it in the designated directory.
-
-### Using `pip`
-
-1. Clone the repository:
-
-    ```bash
-    git clone https://github.com/Ansarimajid/Construction-PPE-Detection.git
-    cd Construction-PPE-Detection
-    ```
-
-2. Install the dependencies:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3. Ensure the YOLOv8 weights file (`ppe.pt`) and place it in the designated directory.
-
----
+4. Ensure the YOLOv11n weights file (`yolov11-n-construct.pt`) and place it in the designated directory.
 
 ## Configuration for Email Alerts
+
+> Please note that the new code **doesn't have email alert**. You can use the original code `webcam.py` and replace with the new YOLOv11n model to enable email alert functionality.
 
 To enable email alert functionality, update the `.env` file in the project directory with your email details:
 
@@ -96,10 +85,10 @@ EMAIL_PASSWORD=your_email_password
 2. Run the detection script:
 
     ```bash
-    python webcam.py
+    python yolo11n-ppe_detect.py
     ```
 
-3. The script will initiate real-time detection using your webcam or process a video file.
+3. The script will initiate real-time detection using your webcam or process a video file. The repository includes multiple sample videos for testing in the `test_videos` directory.
 
 4. Detected objects will be highlighted with bounding boxes indicating whether a helmet, vest, and/or mask is worn, and if a person is detected. The following features are included:
 
@@ -138,5 +127,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-- This project is built upon the YOLOv8 architecture developed by [YOLO](https://github.com/AlexeyAB/darknet).
+- The YoloV11n model comes from [this kaggle notebook](https://www.kaggle.com/models/luiscrmartins/yolo11n-trained-ppe-model/PyTorch/default/1)
 - Special thanks to the contributors and open-source community for their valuable insights and contributions.
